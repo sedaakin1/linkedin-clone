@@ -7,17 +7,23 @@ import { auth, database, googleProvider } from '../firebase/setup';
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 function Signin() {
 
+  const navigate = useNavigate()
+
   const [username, setUsername] = useState("");
+  const [designation, setDesignation] = useState("");
 
   const addUser = async()=> {
     const userRef = doc(database,"Users",auth.currentUser?.uid)
     try{
       await setDoc(userRef,{
         username:username,
-        email:auth.currentUser?.email  
+        email:auth.currentUser?.email,
+        designation:designation,
+        profile_image:auth.currentUser?.photoURL
       })
     }catch(err){
       console.error(err)
@@ -29,6 +35,7 @@ function Signin() {
     try{
       username && await signInWithPopup(auth, googleProvider)
       username && addUser()
+      navigate("/main")
     }catch(err){
       console.error(err)
     }
@@ -48,12 +55,15 @@ function Signin() {
            style={{fontWeight:"100", fontSize:"60px", color:"#B24020"}}>
            Welcome to your professional community!
            </h2>
-           <label style={{color: "grey"}}>Enter Username</label>
+           <label style={{color: "grey", fontSize:"10px"}}>Enter Username</label>
            <br />
             <TextField onChange={(e)=> setUsername(e.target.value)}
             variant="outlined" label="Username" sx={{width:"400px", mt:"5px"}}               
             />
-            <TextField onChange={(e)=> setUsername(e.target.value)}
+            <br />
+            <label style={{color: "grey", fontSize:"10px"}}>Enter Designation</label>
+            <br/>
+            <TextField onChange={(e)=> setDesignation(e.target.value)}
             variant="outlined" label="Designation" sx={{width:"400px", mt:"5px"}}               
             />
             <br />
