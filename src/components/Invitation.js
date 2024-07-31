@@ -37,7 +37,7 @@ function Invitation() {
         }
     }
 
-    
+
 
     // const deleteReq = async(user) => {
     //     const userDoc = doc(database,"Users", `${auth.currentUser?.uid}`)
@@ -56,7 +56,7 @@ function Invitation() {
             await setDoc(connectionDoc,{
                 designation:location.state.designation,
                 username:location.state.username,
-                profile_image:location.state.profile_image,
+                profile_image:location.state.profile_img,
                 status:"connected"
             })
         }catch(err){
